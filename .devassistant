@@ -1,0 +1,19 @@
+dependencies:
+- rpm:
+  - python${py3}
+- if $venv:
+  - rpm:
+    - python-virtualenv
+- else:
+  - rpm:
+    - python-flask
+    - python-flask-sqlalchemy
+    - python-flask-wtf
+    - python-flask-script
+devassistant_version: 0.9.1
+original_kwargs:
+  name: !!python/unicode '/home/mirek/projects/wlm'
+  venv: !!python/unicode ''
+project_type:
+- python
+- flask
