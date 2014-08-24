@@ -6,11 +6,11 @@ import flask
 from flask.ext.script import Manager, Command, Option
 
 from wlm import app
-from wlm import db
+from wlm import db, models
 
 
 class CreateDBCommand(Command):
-    'Create DB and tables'
+    'Create DB and tables.'
     def run(self, alembic_ini=None):
         if flask.current_app.config['SQLALCHEMY_DATABASE_URI'].startswith('sqlite'):
             # strip sqlite:///
@@ -35,13 +35,28 @@ class CreateDBCommand(Command):
     )
 
 class DropDBCommand(Command):
-    'Drop DB tables'
+    'Drop DB tables.'
     def run(self):
         db.drop_all()
+
+class CreateUserCommand(Command):
+    'Create an user.'
+    def run(self, username):
+        user = models.User(
+            username = username
+        )
+        db.session.add(user)
+        db.session.commit()
+
+    option_list = (
+        Option("username",
+               help="Login of the user."),
+    )
 
 manager = Manager(app)
 manager.add_command('create_db', CreateDBCommand())
 manager.add_command('drop_db', DropDBCommand())
+manager.add_command('create_user', CreateUserCommand())
 
 if __name__ == '__main__':
     manager.run()

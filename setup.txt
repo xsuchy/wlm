@@ -8,3 +8,6 @@ local wlmdb wlm md5
 host  wlmdb wlm 127.0.0.1/8 md5
 host  wlmdb wlm ::1/128 md5
 local wlmdb postgres  ident
+
+Create db:
+./manage.py create_db --alembic alembic.ini
