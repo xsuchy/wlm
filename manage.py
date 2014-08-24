@@ -53,10 +53,32 @@ class CreateUserCommand(Command):
                help="Login of the user."),
     )
 
+class CreateSensorCommand(Command):
+    'Create a sensor.'
+    def run(self, username, macaddr):
+        macaddr = macaddr.replace(':', '').lower()
+        if len(macaddr) != 12:
+            sys.stderr.write('Error: Malformed MAC address\n')
+        user = models.User.query.filter_by(username=username).one()
+        sensor = models.Sensor(
+            macaddr = macaddr,
+            owner = user
+        )
+        db.session.add(sensor)
+        db.session.commit()
+
+    option_list = (
+        Option("username",
+               help="Login of the user."),
+        Option("macaddr",
+               help="MAC address of sensor."),
+    )
+
 manager = Manager(app)
 manager.add_command('create_db', CreateDBCommand())
 manager.add_command('drop_db', DropDBCommand())
 manager.add_command('create_user', CreateUserCommand())
+manager.add_command('create_sensor', CreateSensorCommand())
 
 if __name__ == '__main__':
     manager.run()

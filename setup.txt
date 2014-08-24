@@ -11,3 +11,9 @@ local wlmdb postgres  ident
 
 Create db:
 ./manage.py create_db --alembic alembic.ini
+
+Create user:
+./manage.py create_user mirek
+
+Create sensor:
+./manage.py create_sensor mirek 00:11:22:33:44:55
