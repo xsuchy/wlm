@@ -1,0 +1,10 @@
+= Setup PG db ==
+
+su - postgres -c 'PGPASSWORD=wlmpass ; createdb -E UTF8 wlmdb ; yes $PGPASSWORD | createuser -P -sDR wlm'
+
+Configure the user to use md5 password to connect to that database. Put the lines like following to /var/lib/pgsql/data/pg_hba.conf. Avoid the common pitfall: Make sure you put them *before* those existing lines that are for all..
+
+local wlmdb wlm md5
+host  wlmdb wlm 127.0.0.1/8 md5
+host  wlmdb wlm ::1/128 md5
+local wlmdb postgres  ident

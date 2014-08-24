@@ -5,12 +5,10 @@ from flask import request
 from flask.ext.sqlalchemy import SQLAlchemy
 
 app = flask.Flask(__name__)
-app.config['DEBUG'] = True  # TODO: disable before deploying on production server
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///{0}'.format(os.path.join('..', 'test.db'))
-#app.config.from_pyfile("/etc/wlm/wlm.conf", silent=True)
+app.config.from_pyfile("../config/wlm.conf", silent=False)
 db = SQLAlchemy(app)
 
-#import wlm.models
+import wlm.models
 
 @app.route('/')
 def index():

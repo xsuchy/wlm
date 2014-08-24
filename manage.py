@@ -3,7 +3,7 @@
 import os
 
 import flask
-from flask.ext.script import Manager, Command
+from flask.ext.script import Manager, Command, Option
 
 from wlm import app
 from wlm import db
@@ -19,7 +19,20 @@ class CreateDBCommand(Command):
             if not os.path.exists(datadir_name):
                 os.makedirs(datadir_name)
         db.create_all()
+        # load the Alembic configuration and generate the
+        # version table, "stamping" it with the most recent rev:
+        from alembic.config import Config
+        from alembic import command
+        alembic_cfg = Config(alembic_ini)
+        command.stamp(alembic_cfg, "head")
 
+    option_list = (
+        Option("--alembic",
+               "-f",
+               dest="alembic_ini",
+               help="Path to the alembic configuration file (alembic.ini)",
+               required=True),
+    )
 
 class DropDBCommand(Command):
     'Drop DB tables'
