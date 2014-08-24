@@ -7,7 +7,7 @@ from flask.ext.script import Manager, Command, Option
 
 from wlm import app
 from wlm import db, models
-
+from wlm.logic import SensorLogic
 
 class CreateDBCommand(Command):
     'Create DB and tables.'
@@ -56,7 +56,7 @@ class CreateUserCommand(Command):
 class CreateSensorCommand(Command):
     'Create a sensor.'
     def run(self, username, macaddr):
-        macaddr = macaddr.replace(':', '').lower()
+        macaddr = SensorLogic.strip_macaddr(macaddr)
         if len(macaddr) != 12:
             sys.stderr.write('Error: Malformed MAC address\n')
         user = models.User.query.filter_by(username=username).one()
