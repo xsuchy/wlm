@@ -5,7 +5,8 @@ from flask import request, Response
 from flask.ext.sqlalchemy import SQLAlchemy
 
 app = flask.Flask(__name__)
-app.config.from_pyfile("../config/wlm.conf", silent=False)
+app.config.from_pyfile("/etc/wlm/wlm.conf", silent=False)
+app.config.from_pyfile("../config/wlm.conf", silent=True)
 db = SQLAlchemy(app)
 
 import wlm.models
