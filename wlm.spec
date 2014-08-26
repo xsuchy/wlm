@@ -1,5 +1,5 @@
 Name:		wlm
-Version:	1.0
+Version:	1.1
 Release:	1%{?dist}
 Summary:	wlm
 
@@ -60,4 +60,7 @@ service httpd condrestart
 %config(noreplace) %{_sysconfdir}/wlm/wlm.conf
 
 %changelog
+* Tue Aug 26 2014 Miroslav Suchý 1.1-1
+- new package built with tito
+
 
