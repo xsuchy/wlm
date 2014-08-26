@@ -8,15 +8,14 @@ License:	GPLv3
 URL:		https://github.com/xsuchy/wlm
 Source0:	%{name}-%{version}.tar.gz
 
-BuildRequires:	
 Requires:	python3-devel
-Requires:       python3-flask
-Requires:       python3-flask-script
-Requires:       python3-flask-sqlalchemy
-Requires:       python3-psycopg2
-Requires:       httpd
-Requires:       mod_wsgi
-Requires:       systemd
+Requires:	python3-flask
+Requires:	python3-flask-script
+Requires:	python3-flask-sqlalchemy
+Requires:	python3-psycopg2
+Requires:	httpd
+Requires:	mod_wsgi
+Requires:	systemd
 
 %description
 TBD
