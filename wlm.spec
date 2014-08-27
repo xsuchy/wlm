@@ -17,6 +17,7 @@ Requires:	httpd
 Requires:	mod_wsgi
 Requires:	systemd
 
+BuildArch:	noarch
 %description
 TBD
 
