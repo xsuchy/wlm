@@ -50,7 +50,7 @@ service httpd condrestart
 %dir %{_datadir}/wlm
 %dir %{_sysconfdir}/wlm
 #%dir %{_sharedstatedir}/wlm
-%{_datadir}/wlm/wlm
+%{_datadir}/wlm
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/wlm.conf
 
 #%defattr(-, wlm, wlm, -)
