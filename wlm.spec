@@ -34,7 +34,7 @@ install -d %{buildroot}%{_sysconfdir}/httpd/conf.d
 install -d %{buildroot}%{_pkgdocdir}
 install -d %{buildroot}%{_datadir}/wlm/
 
-cp -a wlm alembic* application %{buildroot}%{_datadir}/wlm/
+cp -a wlm alembic* application manage.py %{buildroot}%{_datadir}/wlm/
 cp -a config/* %{buildroot}%{_sysconfdir}/wlm/
 cp -a httpd.wlm.conf %{buildroot}%{_sysconfdir}/httpd/conf.d/wlm.conf
 
