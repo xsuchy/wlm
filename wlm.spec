@@ -1,5 +1,5 @@
 Name:		wlm
-Version:	1.1
+Version:	1.2
 Release:	1%{?dist}
 Summary:	wlm
 
@@ -61,6 +61,13 @@ service httpd condrestart
 %config(noreplace) %{_sysconfdir}/wlm/wlm.conf
 
 %changelog
+* Thu Aug 28 2014 Miroslav Suchý <miroslav@suchy.cz> 1.2-1
+- add Cop releaser
+- package is noarch
+- add alembic to rpm
+- data dir is not used now
+- fix name of variable
+
 * Tue Aug 26 2014 Miroslav Suchý 1.1-1
 - new package built with tito
 
