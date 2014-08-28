@@ -13,6 +13,7 @@ Requires:	python3-flask
 Requires:	python3-flask-script
 Requires:	python3-flask-sqlalchemy
 Requires:	python3-psycopg2
+Requires:   python3-pygal
 Requires:	httpd
 Requires:	mod_wsgi
 Requires:	systemd
