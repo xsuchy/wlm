@@ -16,7 +16,7 @@ Requires:	python3-psycopg2
 Requires:   python3-pygal
 Requires:   python3-alembic
 Requires:	httpd
-Requires:	mod_wsgi
+Requires:	python3-mod_wsgi
 Requires:	systemd
 
 BuildArch:	noarch
