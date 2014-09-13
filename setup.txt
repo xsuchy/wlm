@@ -17,3 +17,15 @@ Create user:
 
 Create sensor:
 ./manage.py create_sensor mirek 00:11:22:33:44:55
+
+
+Upgrading db:
+
+Current verision
+PYTHONPATH=. alembic -c ./alembic.ini current
+
+Upgrade:
+PYTHONPATH=. alembic -c ./alembic.ini upgrade head
+
+Generate upgrade path:
+PYTHONPATH=. alembic -c ./alembic.ini revision -m 'foo' --autogenerate
