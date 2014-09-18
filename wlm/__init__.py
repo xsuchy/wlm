@@ -19,16 +19,25 @@ def index():
 @app.route('/upload/', methods=['GET', 'PUT'])
 def upload():
     data = request.args.get('data')
-    rtc = request.args.get('rtc') # time
+    rtc = request.args.get('rtc') # time (or rather uptime)
     mac = request.args.get('mac') # address
     #bss = request.args.get('bss') # access point address
     #bat = request.args.get('bat') # battery voltage
     #io = request.args.get('io') # GPIO in hex
-    wake = request.args.get('wake') # wake reason
-    seq = request.args.get('seq') # sequence value
+    #wake = request.args.get('wake') # wake reason (1 == power on or hw reset)
+    seq = request.args.get('seq') # sequence value (reset on each reboot of device)
     dev_id = request.args.get('id') # device id (to detect API capability)
-    return flask.render_template('upload.html', path=os.path.abspath(os.path.dirname(__file__))), 200
 
+    if (dev_id = "wlm v1"):
+        sensors_raw_data = [line[i:i+4] for i in xrange(0, len(data), 4)]
+        # 0 is gpio, 1 is ch.0, 2 is ch.1...etc. we care about ch.5
+        analog_hexa = sensors_raw_data[6]
+        analog_int = int(analog_hexa, 16)
+        # data in micro Volts, samplings is by 24 micro Volts
+        analog_uV = analog_int * 24
+        return flask.render_template('upload.html', path=os.path.abspath(os.path.dirname(__file__))), 200
+    else:
+        return flask.render_template("404.html"), 404
 
 @app.route('/render/', methods=['GET'])
 def render():
