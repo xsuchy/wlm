@@ -3,7 +3,6 @@ import pygal
 import flask
 from flask import request, Response
 from flask.ext.sqlalchemy import SQLAlchemy
-from wlm.logic import SensorLogic
 
 app = flask.Flask(__name__)
 app.config.from_pyfile("/etc/wlm/wlm.conf", silent=False)
@@ -29,7 +28,7 @@ def upload():
     seq = request.args.get('seq') # sequence value (reset on each reboot of device)
     dev_id = request.args.get('id') # device id (to detect API capability)
 
-    if (dev_id = "wlm v1"):
+    if (dev_id == "wlm-v1"):
         sensors_raw_data = [line[i:i+4] for i in xrange(0, len(data), 4)]
         # 0 is gpio, 1 is ch.0, 2 is ch.1...etc. we care about ch.5
         analog_hexa = sensors_raw_data[6]
