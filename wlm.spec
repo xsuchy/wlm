@@ -1,5 +1,5 @@
 Name:		wlm
-Version:	1.3
+Version:	1.4
 Release:	1%{?dist}
 Summary:	wlm
 
@@ -63,6 +63,17 @@ service httpd condrestart
 %config(noreplace) %{_sysconfdir}/wlm/wlm.conf
 
 %changelog
+* Sat Sep 20 2014 Miroslav Suchý <miroslav@suchy.cz> 1.4-1
+- save data in db
+- create new Measurement  instance
+- parse data from sensor
+- use python3-mod_wsgi
+- allow httpd to start
+- add notest to setup.txt
+- configure alembic to not use separate password
+- add pygal to requires
+- do not put email in changelog
+
 * Thu Aug 28 2014 Miroslav Suchý <miroslav@suchy.cz> 1.3-1
 - include manage.py in pkg
 - configure copr releaser
