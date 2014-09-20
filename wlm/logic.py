@@ -18,7 +18,7 @@ class SensorLogic(object):
             depth = depth,
             date = datetime.utcnow(),
         )
-        db.session.add(sensor)
+        db.session.add(measurement)
         db.session.commit()
 
     @classmethod
