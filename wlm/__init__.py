@@ -37,8 +37,8 @@ def upload():
         # data in micro Volts, samplings is by 24 micro Volts
         analog_uV = analog_int * 24
         # 400 000 is max, which is 50 m
-        # / 50 m / 80 to get to meter = value 100 is one meter so value is in cm
-        depth = analog_uV / 4000 # now in cm, in int not float
+        # / 80 to get to meter = value 100 is one meter so value is in cm
+        depth = analog_uV / 80 # now in cm, in int not float
         try:
             SensorLogic.store_record(mac, depth)
             return flask.render_template('upload.html', path=os.path.abspath(os.path.dirname(__file__))), 200
