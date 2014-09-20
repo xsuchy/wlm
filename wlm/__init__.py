@@ -1,6 +1,7 @@
 import os
 import pygal
 import flask
+import sqlalchemy
 from flask import request, Response
 from flask.ext.sqlalchemy import SQLAlchemy
 
@@ -38,8 +39,11 @@ def upload():
         # 400 000 is max, which is 50 m
         # / 50 m / 80 to get to meter = value 100 is one meter so value is in cm
         depth = analog_uV / 4000 # now in cm, in int not float
-        SensorLogic.store_record(mac, depth)
-        return flask.render_template('upload.html', path=os.path.abspath(os.path.dirname(__file__))), 200
+        try:
+            SensorLogic.store_record(mac, depth)
+            return flask.render_template('upload.html', path=os.path.abspath(os.path.dirname(__file__))), 200
+        except sqlalchemy.orm.exc.NoResultFound as e:
+            return flask.render_template("404.html"), 404
     else:
         return flask.render_template("404.html"), 404
 
