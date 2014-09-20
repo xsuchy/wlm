@@ -29,7 +29,7 @@ def upload():
     dev_id = request.args.get('id') # device id (to detect API capability)
 
     if (dev_id == "wlm-v1"):
-        sensors_raw_data = [line[i:i+4] for i in xrange(0, len(data), 4)]
+        sensors_raw_data = [data[i:i+4] for i in xrange(0, len(data), 4)]
         # 0 is gpio, 1 is ch.0, 2 is ch.1...etc. we care about ch.5
         analog_hexa = sensors_raw_data[6]
         analog_int = int(analog_hexa, 16)
