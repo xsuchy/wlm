@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>wlm</title>
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+
+
+<div class="wrapper">
+  <header class="header">Sign in</header>
+  <article class="main">
+
+<form action="{{ url_for('login_email') }}">
+ <input tabindex="1" type="text" name="username" id="username" value="" placeholder="Email">
+ <input tabindex="2" type="password" name="password" id="password" placeholder="Password">
+ <button class="bluebutton signin_button">Sign in</button>
+
+</form>
+
+</article>
+  <aside class="aside aside-1">&nbsp;</aside>
+  <aside class="aside aside-2">&nbsp;</aside>
+  <footer class="footer">Footer</footer>
+</div>
+
+</body>
+</html>
