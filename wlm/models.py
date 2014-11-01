@@ -1,3 +1,4 @@
+# vim: expandtab:ts=4:sw=4
 #from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 

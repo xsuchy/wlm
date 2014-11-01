@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+# vim: expandtab:ts=4:sw=4
 
 import os
 

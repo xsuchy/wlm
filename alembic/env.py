@@ -1,3 +1,4 @@
+# vim: expandtab:ts=4:sw=4
 from __future__ import with_statement
 from alembic import context
 from logging.config import fileConfig

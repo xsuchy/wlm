@@ -1,3 +1,5 @@
+# vim: expandtab:ts=4:sw=4
+
 import os
 import pygal
 import flask
@@ -16,6 +18,18 @@ from wlm.logic import SensorLogic
 @app.route('/')
 def index():
     return flask.render_template('index.html', path=os.path.abspath(os.path.dirname(__file__)))
+
+@app.route('/login/')
+def login():
+    if flask.g.user is not None:
+        return flask.redirect(oid.get_next_url())
+    else:
+        return oid.try_login("https://id.fedoraproject.org/",
+                             ask_for=["email", "timezone"])
+
+@app.route('/oauth2callback')
+def oauth2callback()
+    raise
 
 @app.route('/upload/', methods=['GET', 'PUT'])
 def upload():
@@ -50,9 +64,12 @@ def upload():
 @app.route('/render/', methods=['GET'])
 def render():
     #mac = request.args.get('mac')
+    render_type = request.args.get('type')
     sensor_id = 1
     line_chart = pygal.Line(show_legend=False)
     line_chart.title = 'Depth (in cm)'
+    if render_type == 'month':
+        year_month = request.args.get('year_month')
     (depths, dates) = SensorLogic.get_data(sensor_id)
     line_chart.x_labels = map(str, dates)
     line_chart.add(None, depths)
