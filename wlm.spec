@@ -1,5 +1,5 @@
 Name:		wlm
-Version:	1.5
+Version:	1.6
 Release:	1%{?dist}
 Summary:	wlm
 
@@ -63,6 +63,9 @@ service httpd condrestart
 %config(noreplace) %{_sysconfdir}/wlm/wlm.conf
 
 %changelog
+* Sun Nov 23 2014 Miroslav Suchý <miroslav@suchy.cz> 1.6-1
+- fix syntax error
+
 * Sun Nov 23 2014 Miroslav Suchý <miroslav@suchy.cz> 1.5-1
 - add login template
 - if mac addr is not registred return 404
