@@ -1,5 +1,5 @@
 Name:		wlm
-Version:	1.4
+Version:	1.5
 Release:	1%{?dist}
 Summary:	wlm
 
@@ -63,6 +63,11 @@ service httpd condrestart
 %config(noreplace) %{_sysconfdir}/wlm/wlm.conf
 
 %changelog
+* Sun Nov 23 2014 Miroslav Suchý <miroslav@suchy.cz> 1.5-1
+- add login template
+- if mac addr is not registred return 404
+- for some reason xrange does not work here
+
 * Sat Sep 20 2014 Miroslav Suchý <miroslav@suchy.cz> 1.4-1
 - save data in db
 - create new Measurement  instance
