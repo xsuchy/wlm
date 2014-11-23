@@ -28,7 +28,7 @@ def login():
                              ask_for=["email", "timezone"])
 
 @app.route('/oauth2callback')
-def oauth2callback()
+def oauth2callback():
     raise
 
 @app.route('/upload/', methods=['GET', 'PUT'])

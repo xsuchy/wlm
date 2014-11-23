@@ -33,7 +33,7 @@ class SensorLogic(object):
 
     @classmethod
     def get_data_for_month(cls, sensor_id, year_month):
-        year, month = year_month.split(-)
+        year, month = year_month.split('-')
         last_day = calendar.monthrange(year, month)
         rows = models.Measurement.query.filter_by(sensor_id=sensor_id).filter(models.Measurement.date.between("{0}-01".format(year_month), "{0}-{1}".format(year_month, last_day)))\
 		.group_by(sqlalchemy.func.day(models.Measurement.date)).all()
