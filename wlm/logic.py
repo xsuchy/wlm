@@ -35,11 +35,10 @@ class SensorLogic(object):
     @classmethod
     def get_data_for_month(cls, sensor_id, year, month):
         last_day = calendar.monthrange(year, month)[1]
-        query = 'SELECT min(depth) AS "Min", max(depth) AS "Max", EXTRACT(DAY FROM date) AS "Day" FROM measurement WHERE (DATE \'{year}-{month}-01\', DATE \'{year}-{month}-{last_day}\') OVERLAPS (date, date) GROUP BY "Day" ORDER BY "Day"'.format(year=year+0, month=month+0, last_day=last_day)
+        query = 'SELECT avg(depth) As "Avg", date_trunc(\'hour\', date) AS "Day" FROM measurement WHERE (DATE \'{year}-{month}-01\', DATE \'{year}-{month}-{last_day}\') OVERLAPS (date, date) GROUP BY "Day" ORDER BY "Day"'.format(year=year+0, month=month+0, last_day=last_day)
         result = db.session.execute(query)
         Record = namedtuple('Record', result.keys())
         rows = [Record(*r) for r in result.fetchall()]
-        result1 = map(lambda x: x.Min, rows)
-        result2 = map(lambda x: x.Max, rows)
-        result3 = map(lambda x: x.Day, rows)
-        return (result1, result2, result3)
+        result1 = map(lambda x: float(x.Avg)/100, rows)
+        result2 = map(lambda x: x.Day, rows)
+        return (result1, result2)

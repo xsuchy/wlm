@@ -68,7 +68,7 @@ def render_all():
     render_type = request.args.get('type')
     sensor_id = 1
     line_chart = pygal.Line(show_legend=False)
-    line_chart.title = 'Depth (in cm)'
+    line_chart.title = 'Depth (metres)'
     (depths, dates) = (None, None)
     if render_type == 'month':
         year_month = request.args.get('year_month')
@@ -85,14 +85,17 @@ def render_all():
 def render_year_month(year, month):
     #mac = request.args.get('mac')
     sensor_id = 1
-    line_chart = pygal.Line(show_legend=True)
+    line_chart = pygal.Line(show_legend=False, x_label_rotation=30, y_title='metres',
+        x_labels_major_count=24, show_minor_x_labels=False,
+        human_readable=True, y_scale=0.01,
+        interpolate='hermite', interpolation_parameters={'type': 'cardinal', 'c': .75})
+    line_chart.value_formatter = lambda x: "%.2f" % x
     if year is None:
        year = datetime.now().year
     if month is None:
        months = datetime.now().month
-    line_chart.title = 'Depth (in cm) for {0}/{1}'.format(month, year)
-    (depths_min, depths_max, dates) = SensorLogic.get_data_for_month(sensor_id, year, month)
+    line_chart.title = 'Water level for {0}/{1}'.format(month, year)
+    (depths, dates) = SensorLogic.get_data_for_month(sensor_id, year, month)
     line_chart.x_labels = map(str, dates)
-    line_chart.add("Min", depths_min)
-    line_chart.add("Max", depths_max)
+    line_chart.add(None, depths)
     return Response(line_chart.render(), mimetype='image/svg+xml')
