@@ -1,6 +1,7 @@
 # vim: expandtab:ts=4:sw=4
 from wlm import db
 from wlm import models
+from collections import namedtuple
 from datetime import datetime
 
 import calendar
@@ -32,11 +33,13 @@ class SensorLogic(object):
         return (result1, result2)
 
     @classmethod
-    def get_data_for_month(cls, sensor_id, year_month):
-        year, month = year_month.split('-')
-        last_day = calendar.monthrange(year, month)
-        rows = models.Measurement.query.filter_by(sensor_id=sensor_id).filter(models.Measurement.date.between("{0}-01".format(year_month), "{0}-{1}".format(year_month, last_day)))\
-		.group_by(sqlalchemy.func.day(models.Measurement.date)).all()
-        result1 = map(lambda x: x.depth, rows)
-        result2 = map(lambda x: x.date, rows)
-        return (result1, result2)
+    def get_data_for_month(cls, sensor_id, year, month):
+        last_day = calendar.monthrange(year, month)[1]
+        query = 'SELECT min(depth) AS "Min", max(depth) AS "Max", EXTRACT(DAY FROM date) AS "Day" FROM measurement WHERE (DATE \'{year}-{month}-01\', DATE \'{year}-{month}-{last_day}\') OVERLAPS (date, date) GROUP BY "Day" ORDER BY "Day"'.format(year=year+0, month=month+0, last_day=last_day)
+        result = db.session.execute(query)
+        Record = namedtuple('Record', result.keys())
+        rows = [Record(*r) for r in result.fetchall()]
+        result1 = map(lambda x: x.Min, rows)
+        result2 = map(lambda x: x.Max, rows)
+        result3 = map(lambda x: x.Day, rows)
+        return (result1, result2, result3)

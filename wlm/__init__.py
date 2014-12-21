@@ -6,6 +6,7 @@ import flask
 import sqlalchemy
 from flask import request, Response
 from flask.ext.sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 app = flask.Flask(__name__)
 app.config.from_pyfile("/etc/wlm/wlm.conf", silent=False)
@@ -61,16 +62,37 @@ def upload():
     else:
         return flask.render_template("404.html"), 404
 
-@app.route('/render/', methods=['GET'])
-def render():
+@app.route('/render/all/', methods=['GET'])
+def render_all():
     #mac = request.args.get('mac')
     render_type = request.args.get('type')
     sensor_id = 1
     line_chart = pygal.Line(show_legend=False)
     line_chart.title = 'Depth (in cm)'
+    (depths, dates) = (None, None)
     if render_type == 'month':
         year_month = request.args.get('year_month')
-    (depths, dates) = SensorLogic.get_data(sensor_id)
+        (depths, dates) = SensorLogic.get_data(sensor_id)
+    else:
+        (depths, dates) = SensorLogic.get_data(sensor_id)
     line_chart.x_labels = map(str, dates)
     line_chart.add(None, depths)
+    return Response(line_chart.render(), mimetype='image/svg+xml')
+
+
+@app.route('/render/year-month/', defaults={"year": None, "month": None})
+@app.route('/render/year-month/<int:year>/<int:month>/', methods=['GET'])
+def render_year_month(year, month):
+    #mac = request.args.get('mac')
+    sensor_id = 1
+    line_chart = pygal.Line(show_legend=True)
+    if year is None:
+       year = datetime.now().year
+    if month is None:
+       months = datetime.now().month
+    line_chart.title = 'Depth (in cm) for {0}/{1}'.format(month, year)
+    (depths_min, depths_max, dates) = SensorLogic.get_data_for_month(sensor_id, year, month)
+    line_chart.x_labels = map(str, dates)
+    line_chart.add("Min", depths_min)
+    line_chart.add("Max", depths_max)
     return Response(line_chart.render(), mimetype='image/svg+xml')
