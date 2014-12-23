@@ -1,5 +1,5 @@
 # vim: expandtab:ts=4:sw=4
-
+import calendar
 import os
 import pygal
 import flask
@@ -85,17 +85,49 @@ def render_all():
 def render_year_month(year, month):
     #mac = request.args.get('mac')
     sensor_id = 1
+    line_chart = pygal.Line(show_legend=False, y_title='metres',
+        x_labels_major_every=24, show_minor_x_labels=False,
+        human_readable=True, dots_size=1,
+        show_x_guides=True, style=pygal.style.LightenStyle('#0284c4'),
+        tooltip_border_radius=10, print_zeroes=True, no_prefix=True, print_values=False,
+        #this is very slow on client
+        #interpolate='hermite', interpolation_parameters={'type': 'cardinal', 'c': .75}
+        )
+    line_chart.value_formatter = lambda x: "%.2f" % x
+    if year is None:
+       year = datetime.now().year
+    if month is None:
+       month = datetime.now().month
+    line_chart.title = 'Water level for {0}/{1}'.format(month, year)
+    (depths, dates) = SensorLogic.get_data_for_month(sensor_id, year, month)
+    #line_chart.x_labels = map(lambda x: str(x).split(' ')[0], dates)
+    line_chart.x_labels = []
+    last_day = calendar.monthrange(year, month)[1]
+    for i in range(1, last_day+1):
+        line_chart.x_labels.append(str(i))
+        line_chart.x_labels.extend(['']*23)
+    line_chart.add(None, depths)
+    return Response(line_chart.render(), mimetype='image/svg+xml')
+
+@app.route('/render/day/', defaults={"year": None, "month": None, "day": None})
+@app.route('/render/day/<int:year>/<int:month>/<int:day>/', methods=['GET'])
+def render_day(year, month, day):
+    #mac = request.args.get('mac')
+    sensor_id = 1
     line_chart = pygal.Line(show_legend=False, x_label_rotation=30, y_title='metres',
-        x_labels_major_count=24, show_minor_x_labels=False,
-        human_readable=True, y_scale=0.01,
+        x_labels_major_count=120, show_minor_x_labels=False,
+        human_readable=True, show_x_guides=True,
+        fill=True, style=pygal.style.LightenStyle('#0284c4'),
         interpolate='hermite', interpolation_parameters={'type': 'cardinal', 'c': .75})
     line_chart.value_formatter = lambda x: "%.2f" % x
     if year is None:
        year = datetime.now().year
     if month is None:
        months = datetime.now().month
-    line_chart.title = 'Water level for {0}/{1}'.format(month, year)
-    (depths, dates) = SensorLogic.get_data_for_month(sensor_id, year, month)
+    if day is None:
+       day = datetime.now().day
+    line_chart.title = 'Water level for {0}-{1}-{2}'.format(year, month, day)
+    (depths, dates) = SensorLogic.get_data_for_day(sensor_id, year, month, day)
     line_chart.x_labels = map(str, dates)
     line_chart.add(None, depths)
     return Response(line_chart.render(), mimetype='image/svg+xml')
