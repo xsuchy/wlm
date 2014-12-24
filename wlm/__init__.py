@@ -114,11 +114,12 @@ def render_year_month(year, month):
 def render_day(year, month, day):
     #mac = request.args.get('mac')
     sensor_id = 1
-    line_chart = pygal.Line(show_legend=False, x_label_rotation=30, y_title='metres',
-        x_labels_major_count=120, show_minor_x_labels=False,
-        human_readable=True, show_x_guides=True,
-        fill=True, style=pygal.style.LightenStyle('#0284c4'),
-        interpolate='hermite', interpolation_parameters={'type': 'cardinal', 'c': .75})
+    line_chart = pygal.Line(show_legend=False, y_title='metres',
+        x_labels_major_every=60, show_minor_x_labels=False,
+        human_readable=True, dots_size=1,
+        show_x_guides=True, style=pygal.style.LightenStyle('#0284c4'),
+        #interpolate='hermite', interpolation_parameters={'type': 'cardinal', 'c': .75}
+        )
     line_chart.value_formatter = lambda x: "%.2f" % x
     if year is None:
        year = datetime.now().year
@@ -128,6 +129,11 @@ def render_day(year, month, day):
        day = datetime.now().day
     line_chart.title = 'Water level for {0}-{1}-{2}'.format(year, month, day)
     (depths, dates) = SensorLogic.get_data_for_day(sensor_id, year, month, day)
-    line_chart.x_labels = map(str, dates)
+    #line_chart.x_labels = map(str, dates)
+    line_chart.x_labels = []
+    for i in range(0, 24):
+        line_chart.x_labels.append(str(i))
+        line_chart.x_labels.extend(['']*59)
+    line_chart.x_labels.append('24')
     line_chart.add(None, depths)
     return Response(line_chart.render(), mimetype='image/svg+xml')
