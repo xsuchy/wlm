@@ -50,7 +50,6 @@ useradd -r -g wlm -G wlm -d %{_datadir}/wlm/wlm -s /bin/bash -c "WLM user" wlm
 service httpd condrestart
 
 %files
-%dir %{_datadir}/wlm
 %dir %{_sysconfdir}/wlm
 #%dir %{_sharedstatedir}/wlm
 %{_datadir}/wlm
