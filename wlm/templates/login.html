@@ -2,8 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>wlm</title>
+  <title>WLM - Login</title>
   <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://apis.google.com/js/client:platform.js" async defer></script>
 </head>
 <body>
 
@@ -25,6 +26,18 @@
   <aside class="aside aside-2">&nbsp;</aside>
   <footer class="footer">Footer</footer>
 </div>
+
+
+<span id="signinButton">
+  <span
+    class="g-signin"
+    data-callback="signinCallback"
+    data-clientid="830430687045-7tsvp7fd70fek1472kr7gqbiqk3p38kt.apps.googleusercontent.com"
+    data-cookiepolicy="single_host_origin"
+    data-scope="profile">
+  </span>
+</span>
+
 
 </body>
 </html>

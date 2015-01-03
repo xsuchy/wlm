@@ -2,9 +2,11 @@
 import calendar
 import os
 import pygal
+import requests
 import flask
 import sqlalchemy
-from flask import request, Response
+import sys
+from flask import request, Response, render_template
 from flask.ext.sqlalchemy import SQLAlchemy
 from datetime import datetime
 
@@ -23,14 +25,36 @@ def index():
 @app.route('/login/')
 def login():
     if flask.g.user is not None:
-        return flask.redirect(oid.get_next_url())
+        return flask.redirect('/dashboard/')
     else:
-        return oid.try_login("https://id.fedoraproject.org/",
-                             ask_for=["email", "timezone"])
+        return flask.render_template("login.html")
 
 @app.route('/oauth2callback')
 def oauth2callback():
-    raise
+    if 'error' in request.args or 'code' not in request.args:
+        return flask.redirect('/loginfailed/')
+
+    access_token_uri = 'https://accounts.google.com/o/oauth2/token'
+    redirect_uri = "http://mysite/login/google/auth"
+    params = urllib.urlencode({
+        'code':request.args.get['code'],
+        'redirect_uri':redirect_uri,
+        'client_id': flask.current_app.config['CLIENT_ID'],
+        'client_secret': flask.current_app.config['CLIENT_SECRET'],
+        'grant_type':'authorization_code'
+    })
+    headers={'content-type':'application/x-www-form-urlencoded'}
+    r = requests.post(access_token_uri, data = params, headers = headers)
+    token_data = r.json()
+    r = requests.get("https://www.googleapis.com/oauth2/v1/userinfo?access_token={accessToken}".format(accessToken=token_data['access_token']))
+    #this gets the google profile!!
+    google_profile = r.json()
+    sys.stderr.write(google_profile)
+    #log the user in-->
+    #HERE YOU LOG THE USER IN, OR ANYTHING ELSE YOU WANT
+    #THEN REDIRECT TO PROTECTED PAGE
+    return flask.redirect('/')
+
 
 @app.route('/upload/', methods=['GET', 'PUT'])
 def upload():
