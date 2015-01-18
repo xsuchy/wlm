@@ -109,8 +109,8 @@ def oauth2callback():
 def upload():
     data = request.args.get('data')
     rtc = request.args.get('rtc') # time (or rather uptime)
-    mac = request.args.get('mac') # address
-    #bss = request.args.get('bss') # access point address
+    mac = request.args.get('mac') # MAC address of rn-171
+    #bss = request.args.get('bss') # access point MAC
     #bat = request.args.get('bat') # battery voltage
     #io = request.args.get('io') # GPIO in hex
     #wake = request.args.get('wake') # wake reason (1 == power on or hw reset)
