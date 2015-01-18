@@ -30,34 +30,38 @@ from wlm.logic import SensorLogic
 def load_user(userid):
     """ Loads user from session """
     try:
-        return models.User.query.filter_by(id=int(user_id)).one()
+        return models.User.query.filter_by(id=int(userid)).one()
     except sqlalchemy.orm.exc.NoResultFound:
         return None
 
-@app.route('/register' , methods=['GET','POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'GET':
         return render_template('register.html')
-    password = hashlib.sha1(request.form['password']).hexdigest()
+    password = hashlib.sha1(request.form['password'].encode('utf-8')).hexdigest()
     user = wlm.models.User(request.form['username'] , password, request.form['email'])
     db.session.add(user)
-    db.session.commit()
+    try:
+        db.session.commit()
+    except:
+        flask.flash('User already exist.')
+        return flask.redirect(flask.url_for('register'))
     flask.flash('User successfully registered')
-    return flask.redirect(url_for('login'))
+    return flask.redirect(flask.url_for('login'))
  
-@app.route('/login',methods=['GET','POST'])
+@app.route('/login/', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
         return render_template('login.html')
     username = request.form['username']
-    password = hashlib.sha1(request.form['password']).hexdigest()
-    registered_user = User.query.filter_by(username=username,password=password).first()
+    password = hashlib.sha1(request.form['password'].encode('utf-8')).hexdigest()
+    registered_user = wlm.models.User.query.filter_by(username=username,password=password).first()
     if registered_user is None:
         flask.flash('Username or Password is invalid' , 'error')
-        return flask.redirect(url_for('login'))
+        return flask.redirect(flask.url_for('login'))
     flask.ext.login.login_user(registered_user)
     flask.flash('Logged in successfully')
-    return flask.redirect(request.args.get('next') or url_for('dashboard'))
+    return flask.redirect(request.args.get('next') or flask.url_for('dashboard'))
 
 @app.route("/logout")
 @login_required
@@ -71,8 +75,8 @@ def index():
 
 @app.route('/dashboard/')
 @login_required
-def dashboart():
-    return render_template("dashboard.html", form=form)
+def dashboard():
+    return render_template("dashboard.html")
 
 @app.route('/oauth2callback')
 def oauth2callback():
