@@ -16,6 +16,7 @@ Requires:	python3-psycopg2
 Requires:   python3-pygal
 Requires:   python3-alembic
 Requires:   python3-requests
+Requires:   python3-flask-login
 Requires:	httpd
 Requires:	python3-mod_wsgi
 Requires:	systemd

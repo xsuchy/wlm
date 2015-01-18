@@ -1,6 +1,7 @@
 # vim: expandtab:ts=4:sw=4
 import calendar
 import os
+import hashlib
 import pygal
 import requests
 import flask
@@ -8,26 +9,70 @@ import sqlalchemy
 import sys
 from flask import request, Response, render_template
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.login import LoginManager, login_required, login_required, \
+    logout_user, login_user
 from datetime import datetime
+from flask import session
 
 app = flask.Flask(__name__)
 app.config.from_pyfile("/etc/wlm/wlm.conf", silent=False)
 app.config.from_pyfile("../config/wlm.conf", silent=True)
 db = SQLAlchemy(app)
 
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
 import wlm.models
 from wlm.logic import SensorLogic
+
+@login_manager.user_loader
+def load_user(userid):
+    """ Loads user from session """
+    try:
+        return models.User.query.filter_by(id=int(user_id)).one()
+    except sqlalchemy.orm.exc.NoResultFound:
+        return None
+
+@app.route('/register' , methods=['GET','POST'])
+def register():
+    if request.method == 'GET':
+        return render_template('register.html')
+    password = hashlib.sha1(request.form['password']).hexdigest()
+    user = wlm.models.User(request.form['username'] , password, request.form['email'])
+    db.session.add(user)
+    db.session.commit()
+    flask.flash('User successfully registered')
+    return flask.redirect(url_for('login'))
+ 
+@app.route('/login',methods=['GET','POST'])
+def login():
+    if request.method == 'GET':
+        return render_template('login.html')
+    username = request.form['username']
+    password = hashlib.sha1(request.form['password']).hexdigest()
+    registered_user = User.query.filter_by(username=username,password=password).first()
+    if registered_user is None:
+        flask.flash('Username or Password is invalid' , 'error')
+        return flask.redirect(url_for('login'))
+    flask.ext.login.login_user(registered_user)
+    flask.flash('Logged in successfully')
+    return flask.redirect(request.args.get('next') or url_for('dashboard'))
+
+@app.route("/logout")
+@login_required
+def logout():
+    flask.ext.login.logout_user()
+    return flask.redirect("/")
 
 @app.route('/')
 def index():
     return flask.render_template('index.html', path=os.path.abspath(os.path.dirname(__file__)))
 
-@app.route('/login/')
-def login():
-    if flask.g.user is not None:
-        return flask.redirect('/dashboard/')
-    else:
-        return flask.render_template("login.html")
+@app.route('/dashboard/')
+@login_required
+def dashboart():
+    return render_template("dashboard.html", form=form)
 
 @app.route('/oauth2callback')
 def oauth2callback():

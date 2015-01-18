@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>wlm</title>
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  Find me in {{ path }}
+
+{% if current_user.is_authenticated() %}
+  Hi {{ current_user.name }}!
+{% endif %}
+
+  Dashboard
+</body>
+</html>
