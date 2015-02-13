@@ -197,7 +197,7 @@ def render_day(year, month, day):
     if year is None:
        year = datetime.now().year
     if month is None:
-       months = datetime.now().month
+       month = datetime.now().month
     if day is None:
        day = datetime.now().day
     line_chart.title = 'Water level for {0}-{1}-{2}'.format(year, month, day)
