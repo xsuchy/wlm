@@ -40,7 +40,7 @@ install -d %{buildroot}%{_datadir}/wlm/
 
 cp -a wlm alembic* application manage.py %{buildroot}%{_datadir}/wlm/
 cp -a config/* %{buildroot}%{_sysconfdir}/wlm/
-cp -a httpd.wlm.conf %{buildroot}%{_sysconfdir}/httpd/conf.d/wlm.conf
+cp -a httpd.wlm.conf %{buildroot}%{_sysconfdir}/httpd/conf.d/01_wlm.conf
 
 %pre
 getent group wlm >/dev/null || groupadd -r wlm
@@ -55,7 +55,7 @@ service httpd condrestart
 %dir %{_sysconfdir}/wlm
 #%dir %{_sharedstatedir}/wlm
 %{_datadir}/wlm
-%config(noreplace) %{_sysconfdir}/httpd/conf.d/wlm.conf
+%config(noreplace) %{_sysconfdir}/httpd/conf.d/01_wlm.conf
 
 #%defattr(-, wlm, wlm, -)
 #%dir %{_sharedstatedir}/wlm/data
