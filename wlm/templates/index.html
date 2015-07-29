@@ -1,28 +1,76 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
+<!--[if IE 9]><html class="ie9"><![endif]-->
+<!--[if gt IE 9]><!-->
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>WLM - Water Level Meter</title>
-  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-<p>
-WLM – is a smart system for monitoring water level in wells.
-</p>
-<img>
+<!--<![endif]-->
+  <head>
+    <title>WLM - Water Level Meter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/static/favicon.ico">
+    <!-- iPad retina icon -->
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/static/patternfly1/img/apple-touch-icon-precomposed-152.png">
+    <!-- iPad retina icon (iOS < 7) -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/patternfly1/img/apple-touch-icon-precomposed-144.png">
+    <!-- iPad non-retina icon -->
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/static/patternfly1/img/apple-touch-icon-precomposed-76.png">
+    <!-- iPad non-retina icon (iOS < 7) -->
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/patternfly1/img/apple-touch-icon-precomposed-72.png">
+    <!-- iPhone 6 Plus icon -->
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/static/patternfly1/img/apple-touch-icon-precomposed-180.png">
+    <!-- iPhone retina icon (iOS < 7) -->
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/patternfly1/img/apple-touch-icon-precomposed-114.png">
+    <!-- iPhone non-retina icon (iOS < 7) -->
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/static/patternfly1/img/apple-touch-icon-precomposed-57.png">
+    <link href="/static/patternfly1/css/patternfly.min.css" rel="stylesheet" media="screen, print">
+    <link href="/static/patternfly1/css/patternfly-additions.min.css" rel="stylesheet" media="screen, print">
+    <alink rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    <script src="../components/jque/static/patternfly1/jquery.min.js"></script>
+    <script src="../components/bootstr/static/patternfly1/js/bootstrap.min.js"></script>
+    <script src="../components/datatables/media/js/jquery.dataTables.js"></script>
+    <script src="/static/patternfly1/js/patternfly.min.js"></script>
+  </head>
+  <body>
+
+<div class="jumbotron">
+      <div class="container">
+        <div class="page-header">
+        <h1>
+        WLM – is a smart system for monitoring water level in wells.
+        </h1>
+        </div>
+<img src="{{ url_for('static', filename='drawing.png') }}" />
 <p>
 WLM is a smart system for monitoring water level. It uses a pressure sensor, which is lowered to the bottom of the well, measures the pressure level and sends the information to an electronic device positioned in the annular space. This device is connected to your home WiFi system and sends the data to our Internet server. Based on the gained data, the water level is calculated here (with the accuracy of 1 cm) and stored in a database. Afterwards, using your computer or your phone, you can find out about not only the current water level in your well but also how it changed during the whole day, week, or month, or during any period of measuring.
 </p>
-<h2>The beginnings of WLM</h2>
+ <p><a class="btn btn-primary btn-lg" href="https://www.indiegogo.com/" role="button">Fund this on Indiegogo</a></p>
+  </div>
+</div>
+
+<div class="container">
+<div class="row">
+    <div class="col-md-4">
+    <h2>The beginnings of WLM</h2>
 <p>
 When I wanted to start measuring the water level in our family well, I was surprised to learn that a professional string and plumb bob with an accurate tape measure cost $250. Also, this would only allow me to measure the current water level without the possibility to easily get an overview of older data on regular basis. The device I would wish to have for this exists and it is used in industry, but it costs ten times more ($2500) − that is very expensive!
 </p>
 <p>
 I’m a computer hobbyist, so I decided to build such a system myself and, in the end, I managed to do it for a fragment of the price you would pay for the industrial equipment. I’ve been using the system for our family well for more than half a year, so I got more experience with it. Meanwhile, I figured out that I’m not the only one with a similar problem.
 </p>
+        </div>
+    <div class="col-md-4">
+    <img src="{{ url_for('static', filename='wlm-screenshot.png') }}" alt="Screenshot of graph from real measurement"/>
+    </div>
+        <div class="col-md-4">
 <h2>Manufacture</h2>
 <p>
 There’s no point in custom-made manufacturing of one or two pieces because it is rather expensive to buy the components individually. One can only buy them cheap by hundreds. If I can find at least 500 people here who would buy such a device, I can make it for you.
 </p>
+        </div>
+<hr>
+
+      <footer>
+        <p>&copy; Miroslav Suchý 2015</p>
+      </footer>
+    </div> <!-- /container -->
 </body>
 </html>
