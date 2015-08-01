@@ -1,5 +1,5 @@
 Name:		wlm
-Version:	1.6
+Version:	1.7
 Release:	1%{?dist}
 Summary:	wlm
 
@@ -64,6 +64,26 @@ service httpd condrestart
 %config(noreplace) %{_sysconfdir}/wlm/wlm.conf
 
 %changelog
+* Sat Aug 01 2015 Miroslav Suchý <miroslav@suchy.cz> 1.7-1
+- add image gallery
+- make index page nicer
+- add some content
+- clarify comment
+- rename wlm.conf to 01_wlm.conf
+- use ssl
+- fix typo
+- fix login process
+- add upgrade sql script
+- add login
+- request python3-requests
+- implement google+ login
+- do not include /usr/share/wlm twice
+- update /render/day/
+- create /render/day/
+- second iteration of year-month render
+- first version of /render/year-month/
+- fix releaser url
+
 * Sun Nov 23 2014 Miroslav Suchý <miroslav@suchy.cz> 1.6-1
 - fix syntax error
 
