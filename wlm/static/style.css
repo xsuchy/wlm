@@ -50,6 +50,10 @@
   .footer  { order: 4; }
 }
 
+.thumb {
+    margin-bottom: 30px;
+}
+
 body {
   padding: 2em; 
 }

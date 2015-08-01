@@ -38,11 +38,11 @@
         WLM – is a smart system for monitoring water level in wells.
         </h1>
         </div>
-<img src="{{ url_for('static', filename='drawing.png') }}" />
+<img src="{{ url_for('static', filename='drawing.png') }}" class="img-responsive"/>
 <p>
 WLM is a smart system for monitoring water level. It uses a pressure sensor, which is lowered to the bottom of the well, measures the pressure level and sends the information to an electronic device positioned in the annular space. This device is connected to your home WiFi system and sends the data to our Internet server. Based on the gained data, the water level is calculated here (with the accuracy of 1 cm) and stored in a database. Afterwards, using your computer or your phone, you can find out about not only the current water level in your well but also how it changed during the whole day, week, or month, or during any period of measuring.
 </p>
- <p><a class="btn btn-primary btn-lg" href="https://www.indiegogo.com/" role="button">Fund this on Indiegogo</a></p>
+ <p><a class="btn btn-primary btn-lg" href="http://igg.me/at/wlm" role="button">Fund this project on Indiegogo</a></p>
   </div>
 </div>
 
@@ -58,7 +58,7 @@ I’m a computer hobbyist, so I decided to build such a system myself and, in th
 </p>
         </div>
     <div class="col-md-4">
-    <img src="{{ url_for('static', filename='wlm-screenshot.png') }}" alt="Screenshot of graph from real measurement"/>
+    <img src="{{ url_for('static', filename='wlm-screenshot.png') }}" alt="Screenshot of graph from real measurement" class="img-responsive"/>
     </div>
         <div class="col-md-4">
 <h2>Manufacture</h2>
@@ -68,9 +68,47 @@ There’s no point in custom-made manufacturing of one or two pieces because it 
         </div>
 <hr>
 
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-12">
+                <h1 class="page-header">Pictures of prototype</h1>
+            </div>
+
+            <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                <a class="thumbnail" href="{{ url_for('static', filename='wlm-gallery-1.jpg') }}">
+                    <img class="img-responsive" src="{{ url_for('static', filename='wlm-gallery-1s.jpg') }}" alt="">
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                <a class="thumbnail" href="{{ url_for('static', filename='wlm-gallery-2.jpg') }}">
+                    <img class="img-responsive" src="{{ url_for('static', filename='wlm-gallery-2s.jpg') }}" alt="">
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                <a class="thumbnail" href="{{ url_for('static', filename='wlm-gallery-3.jpg') }}">
+                    <img class="img-responsive" src="{{ url_for('static', filename='wlm-gallery-3s.jpg') }}" alt="">
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                <a class="thumbnail" href="{{ url_for('static', filename='wlm-gallery-4.jpg') }}">
+                    <img class="img-responsive" src="{{ url_for('static', filename='wlm-gallery-4s.jpg') }}" alt="">
+                </a>
+            </div>
+        </div>
+     </div>
+
+<p>
+</p>
+
       <footer>
+        <p class="text-muted"><a class="btn btn-primary btn-lg" href="http://igg.me/at/wlm" role="button">Fund this project on Indiegogo</a></p>
         <p>&copy; Miroslav Suchý 2015</p>
-      </footer>
+    </footer>
+
     </div> <!-- /container -->
 </body>
 </html>
