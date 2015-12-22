@@ -1,5 +1,5 @@
 Name:		wlm
-Version:	1.7
+Version:	1.8
 Release:	1%{?dist}
 Summary:	wlm
 
@@ -64,6 +64,10 @@ service httpd condrestart
 %config(noreplace) %{_sysconfdir}/wlm/wlm.conf
 
 %changelog
+* Tue Dec 22 2015 Miroslav Suchý <miroslav@suchy.cz> 1.8-1
+- add another button
+- add letsencrypt location
+
 * Sat Aug 01 2015 Miroslav Suchý <miroslav@suchy.cz> 1.7-1
 - add image gallery
 - make index page nicer
